@@ -2,7 +2,7 @@
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
-const initializePassport = require("./config/passport-config");
+const initializePassport = require("./passport-config");
 
 // Fonctions pour récupérer l'utilisateur par email et ID (à adapter selon votre implémentation)
 async function getUserByEmail(email) {
