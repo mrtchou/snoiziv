@@ -1,8 +1,6 @@
 {
   "dependencies": {
     "bcrypt": "^5.1.0",
-    "passport": "^0.6.0",
-    "passport-local": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -10,6 +8,8 @@
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.2.3",
     "nodemailer": "^6.9.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.31.0"
   }
 }

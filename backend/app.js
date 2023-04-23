@@ -3,6 +3,9 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const initializePassport = require("./passport-config");
+const { sendConfirmationEmail } = require("./emailUtils");
+const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcrypt");
 
 // Fonctions pour récupérer l'utilisateur par email et ID (à adapter selon votre implémentation)
 async function getUserByEmail(email) {
@@ -38,7 +41,6 @@ app.post(
     failureFlash: true, // Autoriser les messages flash d'erreur
   })
 );
-
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -53,13 +55,20 @@ app.post("/register", async (req, res) => {
     // Hachez le mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Générez un jeton de confirmation unique
+    const confirmationToken = uuidv4();
+
     // Créez un nouvel utilisateur et enregistrez-le dans la base de données
     const newUser = {
       name,
       email,
       password: hashedPassword,
+      confirmationToken, // Ajoutez le jeton de confirmation à l'utilisateur
     };
     // Sauvegardez le nouvel utilisateur dans la base de données
+
+    // Envoyez l'e-mail de confirmation à l'utilisateur
+    await sendConfirmationEmail(email, confirmationToken);
 
     // Redirigez l'utilisateur vers la page de connexion ou de réussite
     res.redirect("/login");
